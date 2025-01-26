@@ -10,12 +10,14 @@
     - [2.2 Instalação](#22-instalação)
     - [2.3 Instalação para Desenvolvimento](#23-instalação-para-desenvolvimento)
       - [Backend (Django)](#backend-django)
+      - [Instalar dependências:](#instalar-dependências)
       - [Configurar banco de dados PostgreSQL](#configurar-banco-de-dados-postgresql)
       - [Executar migrações](#executar-migrações)
       - [Criar superusuário (opcional)](#criar-superusuário-opcional)
+      - [Caso queira criar manualmente antes de entrar no site:](#caso-queira-criar-manualmente-antes-de-entrar-no-site)
       - [Iniciar servidor](#iniciar-servidor)
       - [Frontend (React)](#frontend-react)
-      - [Instalar dependências](#instalar-dependências)
+      - [Instalar dependências](#instalar-dependências-1)
       - [Iniciar](#iniciar)
     - [3. Utilização das Funcionalidades](#3-utilização-das-funcionalidades)
     - [4. Testes](#4-testes)
@@ -49,7 +51,23 @@ Este projeto consiste o backend em Python (Django) e frontend em TypeScript (Rea
 
 2. **Criar o arquivo ```.env```:**
 
-- Copie o arquivo ```.env.example``` para ```.env``` e preencha com as suas configurações.
+- Copie o arquivo ```.env.example``` para ```.env``` na pasta raiz e preencha com as suas configurações.
+  
+  ```bash
+  cp .env.example .env
+  ```
+
+- Copie o arquivo ```.env.example``` para ```.env``` para Frontend e Backend:
+  
+  ```bash
+  cd dpsc-atividade-frontend
+  cp .env.example dpsc-atividade-frontend/.env 
+
+  cd dpsc-atividade-backend
+  cp .env.example dpsc-atividade-backend/.env
+  ```
+
+- **Obs:** As configurações de banco de dados no backend e no arquivo raiz `.env` devem ser iguais para garantir a conectividade correta.
 
 3. **Subir os contêineres:**
 
@@ -88,7 +106,7 @@ Deixe o PostgreSQL rodando em container para que não precise instalá-lo direta
         source venv/bin/activate
         ```
 
-Instalar dependências:
+#### Instalar dependências:
 
 ```bash
 cd dpsc-atividade-backend
@@ -113,7 +131,7 @@ Senha: admin123
 
 *Você também pode se registrar no próprio site :D*
 
-Caso queira criar manualmente antes de entrar no site:
+#### Caso queira criar manualmente antes de entrar no site:
 
 ```bash
 python manage.py createsuperuser
