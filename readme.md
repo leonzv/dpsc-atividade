@@ -60,7 +60,7 @@ docker-compose up --build
 4. **Verificar a execução:**
 
 - Backend disponível em ```http://localhost:8000```
-- Frontend disponível em ```http://localhost:5173```
+- Frontend disponível em ```http://localhost:3000```
 
 Deixe o PostgreSQL rodando em container para que não precise instalá-lo diretamente no seu sistema :D
 
