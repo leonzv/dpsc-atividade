@@ -14,7 +14,7 @@ services:
       - ./dpsc-atividade-backend/.env
     environment:
       - PYTHONUNBUFFERED=1
-      - DB_HOST=${DB_HOST}
+      - DB_HOST=dpsc-atividade-db
       - DB_NAME=${DB_NAME}
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
