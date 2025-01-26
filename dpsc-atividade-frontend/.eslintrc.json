@@ -1,0 +1,8 @@
+{
+  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+  "rules": {
+    "semi": ["error", "never"],
+    "@typescript-eslint/semi": ["error", "never"],
+    "@typescript-eslint/no-explicit-any": "off"
+  }
+}

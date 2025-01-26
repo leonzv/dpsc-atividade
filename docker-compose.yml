@@ -1,0 +1,72 @@
+services:
+  dpsc-atividade-backend:
+    build: ./dpsc-atividade-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./dpsc-atividade-backend:/app
+      - static_volume:/app/dpsc_atividade/static/staticfiles
+      - media_volume:/app/dpsc_atividade/static/media
+    depends_on:
+      dpsc-atividade-db:
+        condition: service_healthy
+    env_file:
+      - ./dpsc-atividade-backend/.env
+    environment:
+      - PYTHONUNBUFFERED=1
+      - DB_HOST=${DB_HOST}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+    command: >
+      /wait-for-db.sh bash -c "
+      python dpsc_atividade/manage.py migrate &&
+      python dpsc_atividade/manage.py create_admin &&
+      python dpsc_atividade/manage.py collectstatic --noinput &&
+      python dpsc_atividade/manage.py runserver 0.0.0.0:8000"
+    networks:
+      - app-network
+
+  dpsc-atividade-db:
+    image: postgres:14
+    ports:
+      - "5432:5432"
+    env_file:
+      - ./dpsc-atividade-backend/.env
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: always
+    networks:
+      - app-network
+
+  dpsc-atividade-frontend:
+    build:
+      context: ./dpsc-atividade-frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./dpsc-atividade-frontend:/app
+      - /app/node_modules
+    env_file:
+      - ./dpsc-atividade-frontend/.env
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:
