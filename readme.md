@@ -158,7 +158,7 @@ yarn install
 yarn dev
 ```
 
-Disponível em <http://localhost:5173>.
+Disponível em <http://localhost:3000>.
 
 ---
 
