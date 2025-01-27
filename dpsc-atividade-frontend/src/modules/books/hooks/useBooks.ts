@@ -46,8 +46,9 @@ export const useBooks = (page: number = 1, perPage: number = 10) => {
 
   const deleteMutation = useMutation({
     mutationFn: (id: number) => bookService.delete(id),
-    onSuccess: () => {
+    onSuccess: (id) => {
       queryClient.invalidateQueries({ queryKey: ['books'] })
+      queryClient.invalidateQueries({ queryKey: ['book', id] })
       toast.success('Livro excluído com sucesso!')
     },
     onError: (error: ApiError) => {

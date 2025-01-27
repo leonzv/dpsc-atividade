@@ -24,7 +24,6 @@ export const BookDetails = ({ book }: BookDetailsProps) => {
     setIsDeleting(true)
     try {
       await deleteBook(book.id)
-      toast.success('Livro excluído com sucesso!')
       navigate('/books')
     } catch (err) {
       const { genericError } = formatApiErrors(err)

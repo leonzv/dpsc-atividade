@@ -30,7 +30,9 @@ export const BookCard = ({ book, onDelete }: BookCardProps) => {
   }
 
   const handleCardClick = () => {
-    navigate(`/books/${book.id}`)
+    if (!isDeleting) {
+      navigate(`/books/${book.id}`)
+    }
   }
 
   return (

@@ -18,8 +18,14 @@ export const Dialog = ({
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="bg-white p-6 rounded-lg max-w-sm w-full m-4">
+    <div
+      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+      onClick={onClose}
+    >
+      <div
+        className="bg-white p-6 rounded-lg max-w-sm w-full m-4"
+        onClick={(e) => e.stopPropagation()}
+      >
         <p className="text-gray-800">{title}</p>
         <div className="mt-4 flex justify-end space-x-2">
           <Button onClick={onClose} variant="outline">
