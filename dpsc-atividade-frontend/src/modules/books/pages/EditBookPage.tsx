@@ -8,10 +8,10 @@ const EditBookPage: FC = () => {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
   const { useGetBook } = useBooks()
-  const { data: book, isLoading, error } = useGetBook(Number(id))
+  const { data: book, isLoading } = useGetBook(Number(id))
 
   if (isLoading) return <LoadingSpinner />
-  if (error || !book) {
+  if (!book) {
     navigate('/books')
     return null
   }
