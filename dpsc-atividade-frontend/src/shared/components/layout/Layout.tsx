@@ -43,6 +43,10 @@ export const Layout: FC<LayoutProps> = ({ children, showSidebar }) => {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
+  useEffect(() => {
+    setIsProfileOpen(false)
+  }, [user])
+
   return (
     <div className="h-screen flex flex-col">
       <header className="flex-none h-16 bg-background-light border-b border-surface">
