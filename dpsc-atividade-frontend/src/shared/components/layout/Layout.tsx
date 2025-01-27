@@ -115,7 +115,15 @@ export const Layout: FC<LayoutProps> = ({ children, showSidebar }) => {
 
       <div className="flex-1 flex overflow-hidden bg-background-light">
         {showSidebar && (
-          <Sidebar isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
+          <>
+            <Sidebar isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
+            {isMenuOpen && (
+              <div
+                className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+                onClick={() => setIsMenuOpen(false)}
+              />
+            )}
+          </>
         )}
 
         <main className="flex-1 overflow-hidden relative">
