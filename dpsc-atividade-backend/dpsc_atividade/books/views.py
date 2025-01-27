@@ -5,12 +5,15 @@ from .models import Book
 from .serializers import BookSerializer
 from .services.book_service import BookService
 from rest_framework import serializers
+from rest_framework.filters import SearchFilter
 
 
 class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     book_service = BookService()
+    filter_backends = [SearchFilter]
+    search_fields = ['title', 'author', 'genre']
 
     def get_permissions(self):
         """
@@ -24,7 +27,8 @@ class BookViewSet(viewsets.ModelViewSet):
         return [permission() for permission in permission_classes]
 
     def get_queryset(self):
-        return self.book_service.get_all_books()
+        search = self.request.query_params.get('search', '')
+        return self.book_service.get_all_books(search=search)
 
     def create(self, request, *args, **kwargs):
         data = request.data

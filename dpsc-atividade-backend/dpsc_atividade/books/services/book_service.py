@@ -1,13 +1,18 @@
 from typing import List, Optional
 from books.models import Book
 from .open_library_api import OpenLibraryAPI
+from django.db.models import Q
 
 
 class BookService:
     def __init__(self):
         self.external_api = OpenLibraryAPI()
 
-    def get_all_books(self) -> List[Book]:
+    def get_all_books(self, search: str = "") -> List[Book]:
+        if search:
+            return Book.objects.filter(
+                Q(title__icontains=search) | Q(author__icontains=search)
+            )
         return Book.objects.all()
 
     def get_book_by_id(self, book_id: int) -> Optional[Book]:
