@@ -1,4 +1,4 @@
-import { BookOpen } from 'lucide-react'
+import { BookOpen, PlusCircle } from 'lucide-react'
 import { QuickAccess } from '../../../shared/components/QuickAccess'
 
 const quickLinks = [
@@ -12,9 +12,10 @@ const quickLinks = [
   {
     title: 'Adicionar Livro',
     description: 'Adicionar um novo livro ao catálogo',
-    icon: BookOpen,
+    icon: PlusCircle,
     link: '/books/add',
-    color: 'text-accent'
+    color: 'text-accent',
+    requiredRoles: ['admin']
   }
 ]
 

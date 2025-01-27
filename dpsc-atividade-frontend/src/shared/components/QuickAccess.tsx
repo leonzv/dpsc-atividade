@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
 import { LucideIcon } from 'lucide-react'
+import { useAuth } from '../../modules/auth/hooks/useAuth'
 
 interface QuickLinkItem {
   title: string
@@ -8,6 +9,7 @@ interface QuickLinkItem {
   link: string
   icon: LucideIcon
   color: string
+  requiredRoles?: string[]
 }
 
 interface QuickAccessProps {
@@ -16,9 +18,27 @@ interface QuickAccessProps {
 }
 
 export const QuickAccess = ({ items }: QuickAccessProps) => {
+  const { token, user } = useAuth()
+
+  const filteredItems = items.filter(item => {
+    if (!item.requiredRoles || item.requiredRoles.length === 0) {
+      return true
+    }
+
+    if (!token || !user) {
+      return false
+    }
+
+    if (item.requiredRoles.includes('admin')) {
+      return user.is_staff
+    }
+
+    return true
+  })
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      {items.map((item, index) => (
+      {filteredItems.map((item, index) => (
         <Link
           key={index}
           to={item.link}
