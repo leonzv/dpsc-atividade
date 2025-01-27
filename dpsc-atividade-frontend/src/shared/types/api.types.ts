@@ -2,10 +2,10 @@ export type ApiErrorResponse = {
   message: string
   error?: {
     message?:
-      | {
-          [key: string]: string[]
-        }
-      | string
+    | {
+      [key: string]: string[]
+    }
+    | string
     code?: number
   }
 }

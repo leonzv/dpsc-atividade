@@ -39,10 +39,10 @@ export interface BookRepository {
   getAll(params?: {
     page: number
     perPage: number
+    search?: string
   }): Promise<PaginatedResponse<Book>>
   getById(id: number): Promise<Book>
   create(data: CreateBookDTO): Promise<Book>
   update(id: number, data: UpdateBookDTO): Promise<Book>
   delete(id: number): Promise<void>
-  search(query: string): Promise<Book[]>
 }
