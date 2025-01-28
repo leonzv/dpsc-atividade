@@ -15,6 +15,9 @@ const BooksPage: FC = () => {
   const isFirstRender = useRef(true)
   const lastSearchRef = useRef<string>('')
 
+  const totalPages = pagination ? Math.ceil(pagination.count / 10) : 1
+  const safeTotalPages = totalPages < 1 ? 1 : totalPages
+
   useEffect(() => {
     if (isFirstRender.current) {
       fetchBooks({ page: 1, perPage: 10 })
@@ -53,6 +56,7 @@ const BooksPage: FC = () => {
   }
 
   const handlePageChange = (page: number) => {
+    if (page < 1 || page > safeTotalPages) return
     setCurrentPage(page)
     fetchBooks({ page, perPage: 10, search })
   }
@@ -90,7 +94,7 @@ const BooksPage: FC = () => {
       <div className="sticky bottom-0 border-t bg-white p-4 shadow-md">
         <Pagination
           currentPage={currentPage}
-          totalPages={pagination ? Math.ceil(pagination.count / 10) : 1}
+          totalPages={safeTotalPages}
           onPageChange={handlePageChange}
           perPage={10}
           onPerPageChange={() => { }}

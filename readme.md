@@ -19,8 +19,8 @@
       - [Frontend (React)](#frontend-react)
       - [Instalar dependências](#instalar-dependências-1)
       - [Iniciar](#iniciar)
-    - [3. Utilização das Funcionalidades](#3-utilização-das-funcionalidades)
-    - [4. Testes](#4-testes)
+  - [3. Utilização das Funcionalidades](#3-utilização-das-funcionalidades)
+  - [4. Testes](#4-testes)
 
 ---
 
