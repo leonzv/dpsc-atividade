@@ -29,19 +29,6 @@ class BookService implements BookRepository {
     return response.data
   }
 
-  private convertToFormData(data: CreateBookDTO | UpdateBookDTO): FormData {
-    const formData = new FormData()
-    if (data.title) formData.append('title', data.title)
-    if (data.author) formData.append('author', data.author)
-    if (data.published_year !== undefined) formData.append('published_year', data.published_year.toString())
-    if (data.genre) formData.append('genre', data.genre)
-    if (data.summary) formData.append('summary', data.summary)
-    if (data.cover_image instanceof File) {
-      formData.append('cover_image', data.cover_image)
-    }
-    return formData
-  }
-
   async delete(id: number): Promise<void> {
     await api.delete(`/books/${id}/`)
   }
@@ -58,6 +45,19 @@ class BookService implements BookRepository {
     })
 
     return response.data.suggestions
+  }
+
+  private convertToFormData(data: CreateBookDTO | UpdateBookDTO): FormData {
+    const formData = new FormData()
+    if (data.title) formData.append('title', data.title)
+    if (data.author) formData.append('author', data.author)
+    if (data.published_year !== undefined) formData.append('published_year', data.published_year.toString())
+    if (data.genre) formData.append('genre', data.genre)
+    if (data.summary) formData.append('summary', data.summary)
+    if (data.cover_image instanceof File) {
+      formData.append('cover_image', data.cover_image)
+    }
+    return formData
   }
 }
 

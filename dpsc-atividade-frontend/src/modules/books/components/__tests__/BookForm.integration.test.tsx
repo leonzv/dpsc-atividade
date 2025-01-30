@@ -23,10 +23,10 @@ mockedUseBooks.mockReturnValue({
   books: [],
   loading: false,
   error: null,
-  useGetBook: jest.fn(),
   deleteBook: jest.fn(),
   fetchBooks: jest.fn(),
-  pagination: undefined
+  pagination: null,
+  setSearchQuery: jest.fn()
 })
 
 mockedUseBookSuggestions.mockReturnValue({

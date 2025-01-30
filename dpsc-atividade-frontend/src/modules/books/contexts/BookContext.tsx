@@ -20,7 +20,6 @@ interface BookContextState {
 
 interface BookContextActions {
   fetchBooks: (params?: { page: number; perPage: number; search?: string }) => Promise<void>
-  getBook: (id: number) => Promise<Book>
   createBook: (book: CreateBookDTO) => Promise<void>
   updateBook: (id: number, book: UpdateBookDTO) => Promise<void>
   deleteBook: (id: number) => Promise<void>
@@ -50,7 +49,7 @@ export const BookProvider: FC<BookProviderProps> = ({
 }) => {
   const [state, setState] = useState<BookContextState>(initialState)
 
-  const handleOperation = async <T,>(
+  const handleOperation = useCallback(async <T,>(
     operation: () => Promise<T>
   ): Promise<T> => {
     setState((prev) => ({ ...prev, loading: true, error: null }))
@@ -64,7 +63,7 @@ export const BookProvider: FC<BookProviderProps> = ({
       setState((prev) => ({ ...prev, loading: false, error: err as ApiError }))
       throw err
     }
-  }
+  }, [])
 
   const fetchBooks = useCallback(
     async (params?: { page: number; perPage: number; search?: string }): Promise<void> => {
@@ -78,15 +77,7 @@ export const BookProvider: FC<BookProviderProps> = ({
         }))
       })
     },
-    [repository]
-  )
-
-  const getBook = useCallback(
-    async (id: number): Promise<Book> => {
-      const book = await handleOperation(() => repository.getById(id))
-      return book
-    },
-    [repository]
+    [repository, handleOperation]
   )
 
   const createBook = useCallback(
@@ -94,7 +85,7 @@ export const BookProvider: FC<BookProviderProps> = ({
       await handleOperation(() => repository.create(book))
       await fetchBooks({ page: 1, perPage: state.pagination?.count || 10, search: state.searchQuery })
     },
-    [repository, fetchBooks, state.pagination, state.searchQuery]
+    [repository, fetchBooks, state.pagination, state.searchQuery, handleOperation]
   )
 
   const updateBook = useCallback(
@@ -102,7 +93,7 @@ export const BookProvider: FC<BookProviderProps> = ({
       await handleOperation(() => repository.update(id, book))
       await fetchBooks({ page: 1, perPage: state.pagination?.count || 10, search: state.searchQuery })
     },
-    [repository, fetchBooks, state.pagination, state.searchQuery]
+    [repository, fetchBooks, state.pagination, state.searchQuery, handleOperation]
   )
 
   const deleteBook = useCallback(
@@ -110,7 +101,7 @@ export const BookProvider: FC<BookProviderProps> = ({
       await handleOperation(() => repository.delete(id))
       await fetchBooks({ page: 1, perPage: state.pagination?.count || 10, search: state.searchQuery })
     },
-    [repository, fetchBooks, state.pagination, state.searchQuery]
+    [repository, fetchBooks, state.pagination, state.searchQuery, handleOperation]
   )
 
   const setSearchQuery = useCallback((query: string) => {
@@ -122,7 +113,6 @@ export const BookProvider: FC<BookProviderProps> = ({
       value={{
         ...state,
         fetchBooks,
-        getBook,
         createBook,
         updateBook,
         deleteBook,

@@ -1,17 +1,22 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { BookForm } from '../components/BookForm'
 import { LoadingSpinner } from '../../../shared/components/LoadingSpinner'
-import { useBooks } from '../hooks/useBooks'
+import { useGetBook } from '../hooks/useGetBook'
 
 const EditBookPage: FC = () => {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
-  const { useGetBook } = useBooks()
-  const { data: book, isLoading } = useGetBook(Number(id))
+  const { book, isLoading, error } = useGetBook(Number(id))
+
+  useEffect(() => {
+    if (!id) {
+      navigate('/books')
+    }
+  }, [id, navigate])
 
   if (isLoading) return <LoadingSpinner />
-  if (!book) {
+  if (error || !book) {
     navigate('/books')
     return null
   }
